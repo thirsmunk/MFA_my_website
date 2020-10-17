@@ -1,0 +1,120 @@
+---
+title: "COVID Research"
+author: "Lasse Munk"
+date: "2020-10-18"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+
+
+<div id="challenge-1-cdc-covid-19-public-use-data" class="section level1">
+<h1>Challenge 1: CDC COVID-19 Public Use Data</h1>
+<p>Let us revisit the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>. There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use <code>vroom</code> to load it and you keep <code>cache=TRUE</code> in the chunk options.</p>
+<pre class="r"><code># file contains 11 variables and 3.66m rows and is well over 380Mb. 
+# It will take time to download
+
+# URL link to CDC to download data
+url &lt;- &quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&quot;
+
+covid_data &lt;- vroom::vroom(url)%&gt;%
+  clean_names()</code></pre>
+<p>Given the data we have, I would like you to produce two graphs that show death % rate:</p>
+<ol style="list-style-type: decimal">
+<li>by age group, sex, and whether the patient had co-morbidities or not</li>
+<li>by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</li>
+</ol>
+<pre class="r"><code># First we will create the graph showing death % rate by age group, sex and whether the patient had co-morbidities or not
+
+graphdata_comorbidities &lt;- covid_data %&gt;%
+  #Filter out patients with missing information regarding co-morbidity
+  filter(medcond_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
+  #Rename Yes/No to With/Without comorbidities for graph representation
+  mutate(medcond_yn = ifelse(medcond_yn == &quot;Yes&quot;, &quot;With comorbidities&quot;, &quot;Without comorbidities&quot;)) %&gt;%
+  #Clean death rate column to only Yes/No  
+  filter(death_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
+  #Filter out patients with N/A sex 
+  filter(sex %in% c(&quot;Female&quot;, &quot;Male&quot;)) %&gt;%
+  #Filter out unknown age groups
+  filter(age_group != &quot;Unknown&quot;) %&gt;%
+  #Narrow down the columns that are relevant
+  select(&quot;sex&quot;, &quot;age_group&quot;, &quot;death_yn&quot;, &quot;medcond_yn&quot;)
+
+#Mutate the death rate into percentage for each age group 
+graphdata_comorbidities &lt;- graphdata_comorbidities %&gt;% 
+  #Group per age group
+  group_by(age_group, sex, medcond_yn, death_yn) %&gt;%
+  #Aggregate numbers for selected categories
+  count() %&gt;%
+  #Spread the values from column death_yn to enable us to calculate the          frequency
+  spread(key = death_yn, value = n) %&gt;%
+  #Now we can calculate the frequency of cases per segment 
+  summarize(deathrate_freq = Yes/(No+Yes))
+  
+
+#Plot creation, we use geom_cols because we want to represent values in the data 
+comorbidity_plot &lt;- ggplot(graphdata_comorbidities, aes(x = age_group, y = deathrate_freq)) + 
+  geom_col(fill = &quot;#3273a8&quot;, alpha = 0.7) + 
+  #Round to 1 decimal point and turn into percentage, adjust towards right
+  geom_text(aes(label = round(deathrate_freq*100, 1), hjust = -0.1)) +
+  coord_flip() + 
+  #Separate by sex and comorbidity
+  facet_grid(vars(medcond_yn), vars(sex)) + 
+  theme_bw() +
+  labs(title = &quot;Covid death % by age group, sex and presence of co-morbidities&quot;, caption = &quot;Source: CDC&quot;) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+
+#Now we will create the plot showing the death % rate for age group, sex, and whether the patient was admitted to Intensive Care Unit (ICU) or not.
+
+graphdata_icu &lt;- covid_data %&gt;%
+  #Filter out patients with missing information regarding icu admittance
+  filter(icu_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
+  #Clean death rate column to only Yes/No  
+  filter(death_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
+  mutate(icu_yn = ifelse(icu_yn == &quot;Yes&quot;, &quot;Admitted to ICU&quot;, &quot;No ICU&quot;)) %&gt;%
+  #Filter out patients with N/A sex 
+  filter(sex %in% c(&quot;Female&quot;, &quot;Male&quot;)) %&gt;%
+  #Filter out unknown age groups
+  filter(age_group != &quot;Unknown&quot;) %&gt;%
+  #Narrow down the columns that are relevant
+  select(&quot;sex&quot;, &quot;age_group&quot;, &quot;death_yn&quot;, &quot;icu_yn&quot;)
+
+#Mutate the death rate into percentage for each age group 
+graphdata_icu &lt;- graphdata_icu %&gt;% 
+  #Group per age group
+  group_by(age_group, sex, icu_yn, death_yn) %&gt;%
+  #Aggregate numbers for selected categories
+  count() %&gt;%
+  #Spread the values from column death_yn to enable us to calculate the          frequency
+  spread(key = death_yn, value = n) %&gt;%
+  #Now we can calculate the frequency of cases per segment 
+  summarize(deathrate_freq = Yes/(No+Yes))
+  
+
+#Plot creation, we use geom_cols because we want to represent values in the data 
+icu_plot &lt;- ggplot(graphdata_icu, aes(x = age_group, y = deathrate_freq)) + 
+  geom_col(fill = &quot;#f24f0f&quot;, alpha = 0.7) + 
+  #Round to 1 decimal point and turn into percentage, adjust towards right
+  geom_text(aes(label = round(deathrate_freq*100, 1), hjust = -0.1)) +
+  coord_flip() + 
+  #Separate by sex and comorbidity
+  facet_grid(vars(icu_yn), vars(sex)) + 
+  theme_bw() +
+  labs(title = &quot;Covid death % by age group, sex and whether patient was admitted to ICU&quot;, caption = &quot;Source: CDC&quot;) + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+
+comorbidity_plot</code></pre>
+<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>icu_plot</code></pre>
+<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-2.png" width="648" style="display: block; margin: auto;" /></p>
+</div>

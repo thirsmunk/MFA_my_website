@@ -2,53 +2,75 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Portfolio website for Lasse Munk</title>
-    <link>https://lassemunk.netlify.app/</link>
+    <link>/</link>
     <description>Recent content on Portfolio website for Lasse Munk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Oct 2017 22:42:51 -0500</lastBuildDate><atom:link href="https://lassemunk.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>COVID Research</title>
+      <link>/projects/project2/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project2/</guid>
+      <description>Challenge 1: CDC COVID-19 Public Use Data Let us revisit the CDC Covid-19 Case Surveillance Data. There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use vroom to load it and you keep cache=TRUE in the chunk options.
+# file contains 11 variables and 3.66m rows and is well over 380Mb. # It will take time to download # URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.</description>
+    </item>
+    
+    <item>
+      <title>IMDB Ratings: Does the director play a role?</title>
+      <link>/projects/project1/</link>
+      <pubDate>Sat, 17 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/project1/</guid>
+      <description>This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:
+ H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.
+ Ha There is a significant difference between these mean IMDB-ratings.
+  A big dataset was provided with movies from all genres by many different directors.</description>
+    </item>
+    
     <item>
       <title>Aliquam</title>
-      <link>https://lassemunk.netlify.app/blogs/aliquam/</link>
+      <link>/blogs/aliquam/</link>
       <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
       
-      <guid>https://lassemunk.netlify.app/blogs/aliquam/</guid>
+      <guid>/blogs/aliquam/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tempus</title>
-      <link>https://lassemunk.netlify.app/blogs/tempus/</link>
+      <link>/blogs/tempus/</link>
       <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
       
-      <guid>https://lassemunk.netlify.app/blogs/tempus/</guid>
+      <guid>/blogs/tempus/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Magna</title>
-      <link>https://lassemunk.netlify.app/blogs/magna/</link>
+      <link>/blogs/magna/</link>
       <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
       
-      <guid>https://lassemunk.netlify.app/blogs/magna/</guid>
+      <guid>/blogs/magna/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ipsum</title>
-      <link>https://lassemunk.netlify.app/blogs/ipsum/</link>
+      <link>/blogs/ipsum/</link>
       <pubDate>Tue, 31 Oct 2017 21:28:43 -0500</pubDate>
       
-      <guid>https://lassemunk.netlify.app/blogs/ipsum/</guid>
+      <guid>/blogs/ipsum/</guid>
       <description>Nullam et orci eu lorem consequat tincidunt vivamus et sagittis magna sed nunc rhoncus condimentum sem. In efficitur ligula tate urna. Maecenas massa sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem consequat tincidunt. Vivamus et sagittis tempus.</description>
     </item>
     
     <item>
       <title>Hello R Markdown</title>
-      <link>https://lassemunk.netlify.app/post/2015-07-23-r-rmarkdown/</link>
+      <link>/post/2015-07-23-r-rmarkdown/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>https://lassemunk.netlify.app/post/2015-07-23-r-rmarkdown/</guid>
+      <guid>/post/2015-07-23-r-rmarkdown/</guid>
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>

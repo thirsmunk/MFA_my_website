@@ -1,0 +1,243 @@
+---
+title: "IMDB Ratings: Does the director play a role?"
+author: "Lasse Munk"
+date: "2020-10-17"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<p>This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:</p>
+<ul>
+<li><p>H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.</p></li>
+<li><p>Ha There is a significant difference between these mean IMDB-ratings.</p></li>
+</ul>
+<p>A big dataset was provided with movies from all genres by many different directors. To narrow down the research, just Steven Spielburg and Tim Burton will be compared.</p>
+<p>First I load the data into R:</p>
+<pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;, &quot;movies.csv&quot;))
+glimpse(movies)</code></pre>
+<pre><code>## Rows: 2,961
+## Columns: 11
+## $ title               &lt;chr&gt; &quot;Avatar&quot;, &quot;Titanic&quot;, &quot;Jurassic World&quot;, &quot;The Aveng…
+## $ genre               &lt;chr&gt; &quot;Action&quot;, &quot;Drama&quot;, &quot;Action&quot;, &quot;Action&quot;, &quot;Action&quot;, …
+## $ director            &lt;chr&gt; &quot;James Cameron&quot;, &quot;James Cameron&quot;, &quot;Colin Trevorro…
+## $ year                &lt;dbl&gt; 2009, 1997, 2015, 2012, 2008, 1999, 1977, 2015, 2…
+## $ duration            &lt;dbl&gt; 178, 194, 124, 173, 152, 136, 125, 141, 164, 93, …
+## $ gross               &lt;dbl&gt; 7.61e+08, 6.59e+08, 6.52e+08, 6.23e+08, 5.33e+08,…
+## $ budget              &lt;dbl&gt; 2.37e+08, 2.00e+08, 1.50e+08, 2.20e+08, 1.85e+08,…
+## $ cast_facebook_likes &lt;dbl&gt; 4834, 45223, 8458, 87697, 57802, 37723, 13485, 92…
+## $ votes               &lt;dbl&gt; 886204, 793059, 418214, 995415, 1676169, 534658, …
+## $ reviews             &lt;dbl&gt; 3777, 2843, 1934, 2425, 5312, 3917, 1752, 1752, 3…
+## $ rating              &lt;dbl&gt; 7.9, 7.7, 7.0, 8.1, 9.0, 6.5, 8.7, 7.5, 8.5, 7.2,…</code></pre>
+<p>Then I manipulate the data set so that only Steven Spielburg and Tim Burton are evaluated. The standard error for their average IMDB movie rating is calculated to create confidence intervals.</p>
+<pre class="r"><code>movies1 &lt;- movies %&gt;% 
+  filter(director %in% c(&quot;Steven Spielberg&quot;, &quot;Tim Burton&quot;)) %&gt;%
+  select(director, rating) %&gt;%
+  group_by(director) %&gt;%
+  summarize(avg_rating= mean(rating), 
+            count = n(),
+            sderror = sd(rating)/sqrt(count-1)) %&gt;%
+  mutate(upper_limit = avg_rating + 1.96*sderror,
+         lower_limit = avg_rating - 1.96*sderror) %&gt;%
+  arrange(avg_rating)</code></pre>
+<p>As we see from the data manipulation, the directors have the following statistics:</p>
+<pre class="r"><code>movies1 %&gt;% 
+  kbl() %&gt;%
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+director
+</th>
+<th style="text-align:right;">
+avg_rating
+</th>
+<th style="text-align:right;">
+count
+</th>
+<th style="text-align:right;">
+sderror
+</th>
+<th style="text-align:right;">
+upper_limit
+</th>
+<th style="text-align:right;">
+lower_limit
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Tim Burton
+</td>
+<td style="text-align:right;">
+6.93
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.193
+</td>
+<td style="text-align:right;">
+7.31
+</td>
+<td style="text-align:right;">
+6.55
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Steven Spielberg
+</td>
+<td style="text-align:right;">
+7.57
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+0.148
+</td>
+<td style="text-align:right;">
+7.86
+</td>
+<td style="text-align:right;">
+7.28
+</td>
+</tr>
+</tbody>
+</table>
+<p>Steven Spielburg has an average IMDB rating of 7.57 while Tim Burton has an average rating of just 6.93. Furthermore, Steven has made more movies with a smaller spread across ratings, which is seen by his standard error of just 0.148. On the other hand, Tim Burton has made fewer movies with a larger discrepancy in ratings; causing him to have an standard error of 0.193.</p>
+<p>Judging from these numbers alone, it does indeed seem that a movie’s director has an impact on the IMDB Rating. But looking at numbers can be a bit daunting, so let’s try to make this a bit more appealing to look at:</p>
+<pre class="r"><code>ggplot(movies1, mapping=aes(
+  x = avg_rating,
+  y= reorder(director, avg_rating), 
+  colour = director)) + geom_errorbarh(
+    movies1, 
+    width=.03, 
+  mapping=aes(
+    xmin=upper_limit, 
+    xmax=lower_limit)) + theme_bw() + 
+  geom_point(movies1, mapping=aes(
+    x=avg_rating, 
+    size = 4)) + theme(legend.position = &quot;none&quot;) + 
+  geom_rect(
+    movies1[1,], 
+    mapping = aes(
+      xmin = 7.28, 
+      xmax = 7.31, 
+      ymin = 0, 
+      ymax = 3, 
+      color = NA, 
+      alpha = 0.2)) + 
+  geom_text(aes(
+    x = upper_limit, 
+    y = director, 
+    label=round(upper_limit, 2)), vjust = -1.5, color = &quot;black&quot;) + 
+  geom_text(aes(
+    x = lower_limit, 
+    y = director, 
+    label=round(lower_limit, 2)), vjust = -1.5, color = &quot;black&quot;) +
+  geom_text(aes(
+    x= avg_rating, 
+    y = director, 
+    label=round(avg_rating, 2)), vjust = -1.5, color = &quot;black&quot;, size = 6) + 
+  labs(title = &quot;Do Spielberg and Burton have the same mean IMDB ratings?&quot;,            subtitle = &quot;95% confidence intervals overlap&quot;) + 
+  theme(axis.title.y = element_blank()) + 
+  xlab(&quot;Mean IMDB Rating&quot;)</code></pre>
+<p><img src="/projects/project1/index_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" />
+As the visualisation shows, the two directors’ confidence intervals actually overlap by a very small margin. By convention, this usually means there is not a statistical significance, ie that the director does not play a determining factor in the IMDB rating.</p>
+<p>However, we have only sampled two directors out of a very large dataset - what if we choose two different ones?</p>
+<pre class="r"><code>movies2 &lt;- movies %&gt;% 
+  filter(director %in% c(&quot;James Cameron&quot;, &quot;Michael Bay&quot;)) %&gt;%
+  select(director, rating) %&gt;%
+  group_by(director) %&gt;%
+  summarize(avg_rating= mean(rating), 
+            count = n(),
+            sderror = sd(rating)/sqrt(count-1)) %&gt;%
+  mutate(upper_limit = avg_rating + 1.96*sderror,
+         lower_limit = avg_rating - 1.96*sderror) %&gt;%
+  arrange(avg_rating)
+
+movies2 %&gt;%
+  kbl() %&gt;%
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+director
+</th>
+<th style="text-align:right;">
+avg_rating
+</th>
+<th style="text-align:right;">
+count
+</th>
+<th style="text-align:right;">
+sderror
+</th>
+<th style="text-align:right;">
+upper_limit
+</th>
+<th style="text-align:right;">
+lower_limit
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Michael Bay
+</td>
+<td style="text-align:right;">
+6.64
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+6.93
+</td>
+<td style="text-align:right;">
+6.34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+James Cameron
+</td>
+<td style="text-align:right;">
+7.88
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:right;">
+8.32
+</td>
+<td style="text-align:right;">
+7.45
+</td>
+</tr>
+</tbody>
+</table>
+<p>Using Michael Bay and James Cameron this becomes a lot more apparent - here the gap between the two confidence intervals is quite large and so <strong>tells us that a movie’s director most likely plays a role in its IMDB rating</strong>.</p>
