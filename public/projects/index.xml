@@ -29,5 +29,14 @@
   A big dataset was provided with movies from all genres by many different directors.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>/projects/projectcv/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/projectcv/</guid>
+      <description>system2(&amp;lsquo;open&amp;rsquo;, args = &amp;lsquo;LM_CV20_MFA22.pdf&amp;rsquo;, wait = FALSE)</description>
+    </item>
+    
   </channel>
 </rss>

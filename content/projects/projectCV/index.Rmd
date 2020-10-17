@@ -1,0 +1,12 @@
+---
+title: "LM CV"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, out.width="0.3\\linewidth", include=TRUE, fig.align="center", fig.cap=c("My Curriculum Vitae"), echo=FALSE}
+knitr::include_graphics("./LM_CV20_MFA22.pdf")
+```
