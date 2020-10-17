@@ -100,13 +100,13 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "IMDB Ratings: Does the director play a role?"
       image = "pic02.png"
-      url = "projects/project1"
+      url = "projects/project1/index"
 
     [[params.tiles.showcase]]
       title = "Covid Research"
       subtitle = "Insight into the relation btw. deathrate and underlying conditions and ICU admittance"
       image = "pic03.jpg"
-      url = "projects/project2"
+      url = "projects/project2/index"
   
   [params.blog]
     # All blogs defined in their own files. You can find example blogs
