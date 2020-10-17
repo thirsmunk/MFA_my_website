@@ -98,10 +98,9 @@ disqusShortname = ""
       url = "blogs/aliquam"
 
     [[params.tiles.showcase]]
-      title = "Tempus"
-      subtitle = "Feugiat Amet Tempus"
-      image = "pic02.jpg"
-      url = "blogs/tempus"
+      title = "IMDB Ratings: Does the director play a role?"
+      image = "pic02.png"
+      url = "projects/project1"
 
     [[params.tiles.showcase]]
       title = "Magna"
