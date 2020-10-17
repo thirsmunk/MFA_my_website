@@ -1,0 +1,141 @@
+---
+title: "COVID Research"
+author: "Lasse Munk"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: zenburn
+    number_sections: yes
+    toc: yes
+    toc_float: yes
+    code_folding: show
+---
+
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+# Challenge 1: CDC COVID-19 Public Use Data
+
+Let us revisit the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf). There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use `vroom` to load it and you keep `cache=TRUE` in the chunk options.
+
+
+```{r, cache=TRUE}
+# file contains 11 variables and 3.66m rows and is well over 380Mb. 
+# It will take time to download
+
+# URL link to CDC to download data
+url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
+
+covid_data <- vroom::vroom(url)%>%
+  clean_names()
+
+
+```
+
+Given the data we have, I would like you to produce two graphs that show death % rate:
+
+1. by age group, sex, and whether the patient had co-morbidities or not
+1. by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.
+
+```{r}
+# First we will create the graph showing death % rate by age group, sex and whether the patient had co-morbidities or not
+
+graphdata_comorbidities <- covid_data %>%
+  #Filter out patients with missing information regarding co-morbidity
+  filter(medcond_yn %in% c("Yes", "No")) %>%
+  #Rename Yes/No to With/Without comorbidities for graph representation
+  mutate(medcond_yn = ifelse(medcond_yn == "Yes", "With comorbidities", "Without comorbidities")) %>%
+  #Clean death rate column to only Yes/No  
+  filter(death_yn %in% c("Yes", "No")) %>%
+  #Filter out patients with N/A sex 
+  filter(sex %in% c("Female", "Male")) %>%
+  #Filter out unknown age groups
+  filter(age_group != "Unknown") %>%
+  #Narrow down the columns that are relevant
+  select("sex", "age_group", "death_yn", "medcond_yn")
+
+#Mutate the death rate into percentage for each age group 
+graphdata_comorbidities <- graphdata_comorbidities %>% 
+  #Group per age group
+  group_by(age_group, sex, medcond_yn, death_yn) %>%
+  #Aggregate numbers for selected categories
+  count() %>%
+  #Spread the values from column death_yn to enable us to calculate the          frequency
+  spread(key = death_yn, value = n) %>%
+  #Now we can calculate the frequency of cases per segment 
+  summarize(deathrate_freq = Yes/(No+Yes))
+  
+
+#Plot creation, we use geom_cols because we want to represent values in the data 
+comorbidity_plot <- ggplot(graphdata_comorbidities, aes(x = age_group, y = deathrate_freq)) + 
+  geom_col(fill = "#3273a8", alpha = 0.7) + 
+  #Round to 1 decimal point and turn into percentage, adjust towards right
+  geom_text(aes(label = round(deathrate_freq*100, 1), hjust = -0.1)) +
+  coord_flip() + 
+  #Separate by sex and comorbidity
+  facet_grid(vars(medcond_yn), vars(sex)) + 
+  theme_bw() +
+  labs(title = "Covid death % by age group, sex and presence of co-morbidities", caption = "Source: CDC") + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+
+#Now we will create the plot showing the death % rate for age group, sex, and whether the patient was admitted to Intensive Care Unit (ICU) or not.
+
+graphdata_icu <- covid_data %>%
+  #Filter out patients with missing information regarding icu admittance
+  filter(icu_yn %in% c("Yes", "No")) %>%
+  #Clean death rate column to only Yes/No  
+  filter(death_yn %in% c("Yes", "No")) %>%
+  mutate(icu_yn = ifelse(icu_yn == "Yes", "Admitted to ICU", "No ICU")) %>%
+  #Filter out patients with N/A sex 
+  filter(sex %in% c("Female", "Male")) %>%
+  #Filter out unknown age groups
+  filter(age_group != "Unknown") %>%
+  #Narrow down the columns that are relevant
+  select("sex", "age_group", "death_yn", "icu_yn")
+
+#Mutate the death rate into percentage for each age group 
+graphdata_icu <- graphdata_icu %>% 
+  #Group per age group
+  group_by(age_group, sex, icu_yn, death_yn) %>%
+  #Aggregate numbers for selected categories
+  count() %>%
+  #Spread the values from column death_yn to enable us to calculate the          frequency
+  spread(key = death_yn, value = n) %>%
+  #Now we can calculate the frequency of cases per segment 
+  summarize(deathrate_freq = Yes/(No+Yes))
+  
+
+#Plot creation, we use geom_cols because we want to represent values in the data 
+icu_plot <- ggplot(graphdata_icu, aes(x = age_group, y = deathrate_freq)) + 
+  geom_col(fill = "#f24f0f", alpha = 0.7) + 
+  #Round to 1 decimal point and turn into percentage, adjust towards right
+  geom_text(aes(label = round(deathrate_freq*100, 1), hjust = -0.1)) +
+  coord_flip() + 
+  #Separate by sex and comorbidity
+  facet_grid(vars(icu_yn), vars(sex)) + 
+  theme_bw() +
+  labs(title = "Covid death % by age group, sex and whether patient was admitted to ICU", caption = "Source: CDC") + 
+  scale_y_continuous(labels = scales::percent) + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank())
+
+comorbidity_plot
+icu_plot
+```
