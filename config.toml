@@ -94,7 +94,7 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "About me"
       subtitle = "Quick run-through of my life"
-      image = "pic01.jpg"
+      image = "me.jpg"
       url = "blogs/aliquam"
 
     [[params.tiles.showcase]]
@@ -105,7 +105,7 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "Covid Research"
       subtitle = "Insight into the relation btw. deathrate and underlying conditions and ICU admittance"
-      image = "pic03.jpg"
+      image = "covid.jpg"
       url = "projects/project2/"
   
   [params.blog]
