@@ -95,7 +95,7 @@ disqusShortname = ""
       title = "About me"
       subtitle = "Quick run-through of my life"
       image = "me.jpg"
-      url = "blogs/aliquam"
+      url = "projects/projectCV"
 
     [[params.tiles.showcase]]
       title = "IMDB Ratings: Does the director play a role?"
@@ -105,7 +105,7 @@ disqusShortname = ""
     [[params.tiles.showcase]]
       title = "Covid Research"
       subtitle = "Insight into the relation btw. deathrate and underlying conditions and ICU admittance"
-      image = "covid.jpg"
+      image = "covid19.jpg"
       url = "projects/project2/"
   
   [params.blog]
