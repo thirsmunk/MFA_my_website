@@ -148,7 +148,7 @@ disqusShortname = ""
     [[params.contact.address]]
     title = "Sussex Place or Samy Ofer"
     city = "London"
-    country = "United Kingdom
+    country = "United Kingdom"
 
    # Uses font awesome icons
     [[params.footer.social]]
