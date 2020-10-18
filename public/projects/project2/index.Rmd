@@ -43,15 +43,11 @@ library(vroom)
 library(infer)
 library(blogdown)
 ```
-# Challenge 1: CDC COVID-19 Public Use Data
 
-Let us revisit the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf). There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use `vroom` to load it and you keep `cache=TRUE` in the chunk options.
+The data in this research project is downloaded from the [CDC Covid-19 Case Surveillance Data](https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf).
 
 
 ```{r, cache=TRUE}
-# file contains 11 variables and 3.66m rows and is well over 380Mb. 
-# It will take time to download
-
 # URL link to CDC to download data
 url <- "https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD"
 
@@ -61,10 +57,10 @@ covid_data <- vroom::vroom(url)%>%
 
 ```
 
-Given the data we have, I would like you to produce two graphs that show death % rate:
+Given the data we have, I set out to create two graphs showing the deaathrate in combination with
 
-1. by age group, sex, and whether the patient had co-morbidities or not
-1. by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.
+1.  age group, sex, and whether the patient had co-morbidities or not
+2.  age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.
 
 ```{r}
 # First we will create the graph showing death % rate by age group, sex and whether the patient had co-morbidities or not

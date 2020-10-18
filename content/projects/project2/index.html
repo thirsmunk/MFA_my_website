@@ -14,21 +14,16 @@ output:
 
 
 
-<div id="challenge-1-cdc-covid-19-public-use-data" class="section level1">
-<h1>Challenge 1: CDC COVID-19 Public Use Data</h1>
-<p>Let us revisit the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>. There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use <code>vroom</code> to load it and you keep <code>cache=TRUE</code> in the chunk options.</p>
-<pre class="r"><code># file contains 11 variables and 3.66m rows and is well over 380Mb. 
-# It will take time to download
-
-# URL link to CDC to download data
+<p>The data in this research project is downloaded from the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>.</p>
+<pre class="r"><code># URL link to CDC to download data
 url &lt;- &quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&quot;
 
 covid_data &lt;- vroom::vroom(url)%&gt;%
   clean_names()</code></pre>
-<p>Given the data we have, I would like you to produce two graphs that show death % rate:</p>
+<p>Given the data we have, I set out to create two graphs showing the deaathrate in combination with</p>
 <ol style="list-style-type: decimal">
-<li>by age group, sex, and whether the patient had co-morbidities or not</li>
-<li>by age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</li>
+<li>age group, sex, and whether the patient had co-morbidities or not</li>
+<li>age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</li>
 </ol>
 <pre class="r"><code># First we will create the graph showing death % rate by age group, sex and whether the patient had co-morbidities or not
 
@@ -117,4 +112,3 @@ comorbidity_plot</code></pre>
 <p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>icu_plot</code></pre>
 <p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-2.png" width="648" style="display: block; margin: auto;" /></p>
-</div>

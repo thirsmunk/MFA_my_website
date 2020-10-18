@@ -13,8 +13,9 @@
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/projects/project2/</guid>
-      <description>Challenge 1: CDC COVID-19 Public Use Data Let us revisit the CDC Covid-19 Case Surveillance Data. There are well over 3 million entries of individual, de-identified patient data. Since this is a large file, I suggest you use vroom to load it and you keep cache=TRUE in the chunk options.
-# file contains 11 variables and 3.66m rows and is well over 380Mb. # It will take time to download # URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.</description>
+      <description>The data in this research project is downloaded from the CDC Covid-19 Case Surveillance Data.
+# URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&amp;quot; covid_data &amp;lt;- vroom::vroom(url)%&amp;gt;% clean_names() Given the data we have, I set out to create two graphs showing the deaathrate in combination with
+age group, sex, and whether the patient had co-morbidities or not age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</description>
     </item>
     
     <item>
@@ -27,15 +28,6 @@
  H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.
  Ha There is a significant difference between these mean IMDB-ratings.
   A big dataset was provided with movies from all genres by many different directors.</description>
-    </item>
-    
-    <item>
-      <title>LM CV</title>
-      <link>/projects/projectcv/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/projects/projectcv/</guid>
-      <description>  Figure 1: My Curriculum Vitae  </description>
     </item>
     
   </channel>

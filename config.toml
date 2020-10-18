@@ -35,41 +35,12 @@ disqusShortname = ""
     heading = "Page couldn't be found"
     text = "Please visit [this page](/)"
 
-  # Navigation Section
-  [params.navigation]
-    title = "Menu"
-    subtitle = "Use this to navigate website"
-    menu = "Menu"
-    # Optional logo as brand stored in img/
-    # logo = "logo.png"
-
-    [[params.navigation.links]]
-      name = "Home"
-      url = "#"
-
-    [[params.navigation.links]]
-      name = "About me"
-      url = "blogs"
-
-    [[params.navigation.links]]
-      name = "Blog"
-      url = "blogs/ipsum"
-
-    [[params.navigation.links]]
-      name = "Pictures"
-      url = "elements.html"
-
     # Add custom links here by uncommenting code below. To remove links just delete
     # the [[params.navigation.links]] map associated with that link. Copy and paste
     # code below if you need more links. Buttons work in the same way.
     # [[params.navigation.links]]
     #    name = "NameOfLink"
     #    url = "UrlOfLink"
-
-    # Button Style 1
-    [[params.navigation.button1]]
-      name = "Get Started"
-      url = "blogs"
 
     # Button Style 2
     [[params.navigation.button2]]
@@ -82,8 +53,7 @@ disqusShortname = ""
     # To change the background image on the homepage banner, replace 'banner.jpg' in
     # the 'static/img' folder.
     title = "Lasse Munk"
-    subtitle = "A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP\nAND RELEASED UNDER THE CREATIVE COMMONS."
-    buttonText = "Get Started"
+    subtitle = "Welcome to my website created during 'Data Analytics for Finance' in Term 1 of the LBS MFA2021 under supervision of Professor Kostis Christodoulou"
 
 
   # Tiles Section
