@@ -73,20 +73,22 @@
                             
 
 
-<p>The data in this research project is downloaded from the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>.</p>
+<p>#About
+The data in this research project is downloaded from the <a href="https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf">CDC Covid-19 Case Surveillance Data</a>.</p>
 <pre class="r"><code># URL link to CDC to download data
 url &lt;- &quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&quot;
 
 covid_data &lt;- vroom::vroom(url)%&gt;%
   clean_names()</code></pre>
-<p>Given the data we have, I set out to create two graphs showing the deaathrate in combination with</p>
+<p>##Task
+Given the data we have, I set out to create two graphs showing the deaathrate in combination with</p>
 <ol style="list-style-type: decimal">
 <li>age group, sex, and whether the patient had co-morbidities or not</li>
 <li>age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</li>
 </ol>
-<pre class="r"><code># First we will create the graph showing death % rate by age group, sex and whether the patient had co-morbidities or not
-
-graphdata_comorbidities &lt;- covid_data %&gt;%
+<p>###1. COVID and Co-morbidities
+First I create the graph for death rate and co-morbidities seperated by age group, sex and Y/N comorbidity.</p>
+<pre class="r"><code>graphdata_comorbidities &lt;- covid_data %&gt;%
   #Filter out patients with missing information regarding co-morbidity
   filter(medcond_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
   #Rename Yes/No to With/Without comorbidities for graph representation
@@ -126,9 +128,19 @@ comorbidity_plot &lt;- ggplot(graphdata_comorbidities, aes(x = age_group, y = de
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 
-#Now we will create the plot showing the death % rate for age group, sex, and whether the patient was admitted to Intensive Care Unit (ICU) or not.
 
-graphdata_icu &lt;- covid_data %&gt;%
+comorbidity_plot</code></pre>
+<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" />
+####Conclusion
+Here we see the following interesting conclusions:</p>
+<ul>
+<li>Patients &gt;=60 years old had a far higher mortality rate than other age groups</li>
+<li>Patients with co-morbidities were far more likely to die as a result of COVID</li>
+<li>Hardly anyone &lt; 40 without comorbidities passed away from COVID</li>
+</ul>
+<p>###2. COVID and admittance to ICU
+Let’s now turn over attention to the death rate in combination with admittance to the ICU (Intensive Care Unit)</p>
+<pre class="r"><code>graphdata_icu &lt;- covid_data %&gt;%
   #Filter out patients with missing information regarding icu admittance
   filter(icu_yn %in% c(&quot;Yes&quot;, &quot;No&quot;)) %&gt;%
   #Clean death rate column to only Yes/No  
@@ -167,10 +179,16 @@ icu_plot &lt;- ggplot(graphdata_icu, aes(x = age_group, y = deathrate_freq)) +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank())
 
-comorbidity_plot</code></pre>
-<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>icu_plot</code></pre>
-<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-2-2.png" width="648" style="display: block; margin: auto;" /></p>
+icu_plot</code></pre>
+<p><img src="/projects/project2/index_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" />
+####Conclusion
+Here we see the interesting conclusions:</p>
+<ul>
+<li>If a patient with COVID is above 59 years and is admitted to the ICU, there’s a +50% chance he/she will die</li>
+<li>Even for the most senior patients with COVID, non-admittance to the ICU greatly increases your survival odds</li>
+<li>Admittance to the ICU is a far greater indicator of mortality than co-morbidity is</li>
+</ul>
+<p>A next iteration of this research would be to look at the relation between COVID-patients and whether co-morbidities were a contributing factor to being admitted to the ICU.</p>
 
                         </div>
                     </section>
