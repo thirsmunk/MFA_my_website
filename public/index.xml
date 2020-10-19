@@ -6,27 +6,26 @@
     <description>Recent content on Portfolio website for Lasse Munk</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 19 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>COVID Research</title>
       <link>/projects/project2/</link>
-      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/projects/project2/</guid>
-      <description>#About The data in this research project is downloaded from the CDC Covid-19 Case Surveillance Data.
-# URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&amp;quot; covid_data &amp;lt;- vroom::vroom(url)%&amp;gt;% clean_names() ##Task Given the data we have, I set out to create two graphs showing the deaathrate in combination with
+      <description>About The data in this research project is downloaded from the CDC Covid-19 Case Surveillance Data.
+# URL link to CDC to download data url &amp;lt;- &amp;quot;https://data.cdc.gov/api/views/vbim-akqf/rows.csv?accessType=DOWNLOAD&amp;quot; covid_data &amp;lt;- vroom::vroom(url)%&amp;gt;% clean_names() Task Given the data we have, I set out to create two graphs showing the deaathrate in combination with
 age group, sex, and whether the patient had co-morbidities or not age group, sex, and whether the patient was admited to Intensive Care Unit (ICU) or not.</description>
     </item>
     
     <item>
       <title>IMDB Ratings: Does the director play a role?</title>
       <link>/projects/project1/</link>
-      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/projects/project1/</guid>
-      <description>#About This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:
-###Null Hypothesis * H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.
-###Alternative Hypothesis * Ha There is a significant difference between these mean IMDB-ratings.</description>
+      <description>About This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:
+Null Hypothesis  H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.   Alternative Hypothesis  Ha There is a significant difference between these mean IMDB-ratings.</description>
     </item>
     
     <item>

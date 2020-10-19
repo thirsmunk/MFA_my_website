@@ -75,14 +75,24 @@
 <link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 
-<p>#About
-This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:</p>
-<p>###Null Hypothesis
-* H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.</p>
-<p>###Alternative Hypothesis
-* Ha There is a significant difference between these mean IMDB-ratings.</p>
-<p>##Research
-A big dataset was provided with movies from all genres by many different directors. To narrow down the research, just Steven Spielburg and Tim Burton will be compared.</p>
+<div id="about" class="section level1">
+<h1>About</h1>
+<p>This project was done to research whether the IMDB rating for blockbuster movies were influenced by the director. Before looking at any kind of data, a null hypothesis and alternative hypothesis were set up as follows:</p>
+<div id="null-hypothesis" class="section level3">
+<h3>Null Hypothesis</h3>
+<ul>
+<li>H0 there is no difference in the mean IMDB-rating for movies produced by Steven Spielberg or Tim Burton.</li>
+</ul>
+</div>
+<div id="alternative-hypothesis" class="section level3">
+<h3>Alternative Hypothesis</h3>
+<ul>
+<li>Ha There is a significant difference between these mean IMDB-ratings.</li>
+</ul>
+</div>
+<div id="research" class="section level2">
+<h2>Research</h2>
+<p>A big dataset was provided with movies from all genres by many different directors. To narrow down the research, just Steven Spielburg and Tim Burton will be compared.</p>
 <p>First I load the data into R:</p>
 <pre class="r"><code>movies &lt;- read_csv(here::here(&quot;data&quot;, &quot;movies.csv&quot;))
 glimpse(movies)</code></pre>
@@ -181,8 +191,9 @@ Steven Spielberg
 </tbody>
 </table>
 <p>Steven Spielburg has an average IMDB rating of 7.57 while Tim Burton has an average rating of just 6.93. Furthermore, Steven has made more movies with a smaller spread across ratings, which is seen by his standard error of just 0.148. On the other hand, Tim Burton has made fewer movies with a larger discrepancy in ratings; causing him to have an standard error of 0.193.</p>
-<p>###Data Visualisation
-Judging from these numbers alone, it does indeed seem that a movie’s director has an impact on the IMDB Rating. But looking at numbers can be a bit daunting, so let’s try to make this a bit more appealing to look at:</p>
+<div id="data-visualisation" class="section level3">
+<h3>Data Visualisation</h3>
+<p>Judging from these numbers alone, it does indeed seem that a movie’s director has an impact on the IMDB Rating. But looking at numbers can be a bit daunting, so let’s try to make this a bit more appealing to look at:</p>
 <pre class="r"><code>ggplot(movies1, mapping=aes(
   x = avg_rating,
   y= reorder(director, avg_rating), 
@@ -221,8 +232,11 @@ Judging from these numbers alone, it does indeed seem that a movie’s director 
   xlab(&quot;Mean IMDB Rating&quot;)</code></pre>
 <p><img src="/projects/project1/index_files/figure-html/unnamed-chunk-3-1.png" width="648" style="display: block; margin: auto;" />
 As the visualisation shows, the two directors’ confidence intervals actually overlap by a very small margin. By convention, this usually means there is not a statistical significance, ie that the director does not play a determining factor in the IMDB rating.</p>
-<p>##Next steps - re-sampling the data
-However, we have only sampled two directors out of a very large dataset - what if we choose two different ones?</p>
+</div>
+</div>
+<div id="next-steps---re-sampling-the-data" class="section level2">
+<h2>Next steps - re-sampling the data</h2>
+<p>However, we have only sampled two directors out of a very large dataset - what if we choose two different ones?</p>
 <pre class="r"><code>movies2 &lt;- movies %&gt;% 
   filter(director %in% c(&quot;James Cameron&quot;, &quot;Michael Bay&quot;)) %&gt;%
   select(director, rating) %&gt;%
@@ -303,8 +317,12 @@ James Cameron
 </tr>
 </tbody>
 </table>
-<p>##Conclusion
-Using Michael Bay and James Cameron this becomes a lot more apparent - here the gap between the two confidence intervals is quite large and so <strong>tells us that a movie’s director most likely plays a role in its IMDB rating</strong>.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>Using Michael Bay and James Cameron this becomes a lot more apparent - here the gap between the two confidence intervals is quite large and so <strong>tells us that a movie’s director most likely plays a role in its IMDB rating</strong>.</p>
+</div>
+</div>
 
                         </div>
                     </section>
